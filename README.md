@@ -1,2 +1,2 @@
 # ephy
-simple Node.js (express) api
+Node.js api
