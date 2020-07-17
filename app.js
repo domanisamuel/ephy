@@ -24,8 +24,10 @@ const userSchema = mongoose.Schema({
     phone: { type:String, required: true },
     auth_date: { type:Date, default: Date.now }
 })
+const User = mongoose.model(`User`, userSchema)
 
 // controllers and routes
+
 
 // save a user
 app.post(`/api/users/`, (req, res) => {
@@ -42,13 +44,13 @@ app.post(`/api/users/`, (req, res) => {
 })
 
 // retrieve all users
-app.get(`/api/users/`, (res) => {
+app.get(`/api/users/`, (req, res) => {
     User.find()
     .then((users) => {
         res.status(200).json(users)
     })
     .catch((error) => {
-        res.status(400).json({ error })
+        res.status(400).json(error)
     })
 })
 
@@ -65,17 +67,20 @@ app.get(`/api/users/:id`, (req, res) => {
 
 // update a specific user
 app.put(`/api/users/:id`, (req, res) => {
-    User.updateOnr({_id: req.params.id })
+    const id = req.params.id;
+    const { username, email, phone } = req.body;
+    const user = new User({ id, username, email, phone });
+    user.updateOne({ _id:id }, user)
     .then((user) => {
-        res.status(200).json(user)
+        res.status(201).json({ message: `user updated successfully`, data: user })
     })
     .catch((error) => {
-        res.status(404).json(error)
+        res.status(400).json(error)
     })
 })
 
 // delete a specific user
-app.put(`/api/users/:id`, (req, res) => {
+app.delete(`/api/users/:id`, (req, res) => {
     User.deleteOne({ _id:req.params.id })
     .then((user) => {
         res.status(200).json({ message:`user deleted!` })
