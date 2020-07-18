@@ -68,9 +68,7 @@ app.get(`/api/users/:id`, (req, res) => {
 // update a specific user
 app.put(`/api/users/:id`, (req, res) => {
     const id = req.params.id;
-    const { username, email, phone } = req.body;
-    const user = new User({ id, username, email, phone });
-    user.updateOne({ _id:id }, user)
+    User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then((user) => {
         res.status(201).json({ message: `user updated successfully`, data: user })
     })
