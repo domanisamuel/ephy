@@ -3,18 +3,33 @@
 // import user model
 const User = require('../models/users');
 
-// save a user
+// save a user (signup)
 exports.create = (req, res) => {
-    const { firstname, lastname, email, phone, password } = req.body;
-    const user = new User({ firstname, lastname, email, phone, password });
-    user.save()
-    .then(() => {
-        res.status(201)
-        res.json({ message: `user saved successfully` })
+    // check if email exists
+    User.find({email: req.body.email})
+    .then(email => {
+        if(email.length >= 1) {
+            return res.status(400).json({ message:`Email already exists` })
+        } else {
+            // if cleared, 
+            // get required parameters
+            const { firstname, lastname, email, phone, password } = req.body;
+            const user = new User({ firstname, lastname, email, phone, password });
+            // save user
+            user.save()
+            .then(() => {
+                res.status(201)
+                res.json({ message: `user saved successfully` })
+            })
+            .catch((error) => {
+                res.status(400).json({ error })
+            })
+        }
     })
     .catch((error) => {
         res.status(400).json({ error })
     })
+    
 }
 
 // retrieve all users
