@@ -1,7 +1,7 @@
 # ephy
 Node.js api
 
-#### auth (signup)
+#### users
 | Action| Endpoint | Functionality | 
 |----------|----------|---------------|
 | POST | `/api/users`  | Add a user|
@@ -22,6 +22,34 @@ schema:
   }
 
 ```
+#### auth
+##### signup:
+
+`baseurl/signup`
+```json
+
+  {
+    "firstname": "ephy",
+    "lastname": "kiki",
+    "email": "ephy@xyz.com",
+    "phone":"07xxxxxxxx",
+    "password": "xxxxxx"
+  }
+
+```
+##### login:
+
+`baseurl/login`
+
+```json
+
+  {
+    "email": "ephy@xyz.com",
+    "password": "xxxxxx"
+  }
+  
+```
+
 
 ### Prerequisites
 - Node 8 or greater version
