@@ -2,6 +2,8 @@
 
 // import user model
 const User = require('../models/users');
+// encrypt
+const bcrypt = require('bcryptjs');
 
 // save a user (signup)
 exports.create = (req, res) => {
@@ -11,18 +13,27 @@ exports.create = (req, res) => {
         if(email.length >= 1) {
             return res.status(400).json({ message:`Email already exists` })
         } else {
-            // if cleared, 
-            // get required parameters
-            const { firstname, lastname, email, phone, password } = req.body;
-            const user = new User({ firstname, lastname, email, phone, password });
-            // save user
-            user.save()
-            .then(() => {
-                res.status(201)
-                res.json({ message: `user saved successfully` })
-            })
-            .catch((error) => {
-                res.status(400).json({ error })
+            // if cleared,
+            // hash password
+            bcrypt.hash(req.body.password, 10).then((hash) => {
+                // get required parameters
+                const user = new User({ 
+                    firstname:req.body.firstname,
+                    lastname:req.body.lastname,
+                    email:req.body.email,
+                    phone:req.body.phone,
+                    password: hash 
+                });
+                
+                // save user
+                user.save()
+                .then(() => {
+                    res.status(201)
+                    res.json({ message: `user saved successfully` })
+                })
+                .catch((error) => {
+                    res.status(400).json({ error })
+                })
             })
         }
     })
