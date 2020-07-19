@@ -5,8 +5,8 @@ const User = require('../models/users');
 
 // save a user
 exports.create = (req, res) => {
-    const { username, email, phone } = req.body;
-    const user = new User({ username, email, phone });
+    const { firstname, lastname, email, phone, password } = req.body;
+    const user = new User({ firstname, lastname, email, phone, password });
     user.save()
     .then(() => {
         res.status(201)
