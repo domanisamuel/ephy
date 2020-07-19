@@ -14,6 +14,10 @@ router.route('/users/:id')
     .put(userController.update)
     .patch(userController.update)
     .delete(userController.delete)
+router.route('/signup')
+    .post(userController.create)
+router.route('/login')
+    .post(userController.login)
 
 // export user routes
 module.exports = router;
