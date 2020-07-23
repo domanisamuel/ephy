@@ -1,19 +1,18 @@
 // routes
 
 const router = require('express').Router();
-
-// import user controller
-const userController = require('../controllers/users');
+const userController = require('../controllers/users'); // import user controller
+const Authorization = require('../middleware/check-auth') // check auth
 
 // user routes
 router.route('/users')
-    .post(userController.create)
-    .get(userController.findAll)
+    .post(Authorization, userController.create)
+    .get(Authorization, userController.findAll)
 router.route('/users/:id')
-    .get(userController.findOne)
-    .put(userController.update)
-    .patch(userController.update)
-    .delete(userController.delete)
+    .get(Authorization, userController.findOne)
+    .put(Authorization, userController.update)
+    .patch(Authorization, userController.update)
+    .delete(Authorization, userController.delete)
 router.route('/signup')
     .post(userController.create)
 router.route('/login')
