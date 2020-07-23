@@ -1,11 +1,9 @@
 // controller
 
-// import user model
-const User = require('../models/users');
-// encrypt
-const bcrypt = require('bcryptjs');
-// json web tokens
-const jwt = require('jsonwebtoken');
+const User = require('../models/users'); // import user model
+const bcrypt = require('bcryptjs'); // encrypt
+const jwt = require('jsonwebtoken'); // json web tokens
+const config = require('../config');
 
 // save a user (signup)
 exports.create = (req, res) => {
@@ -103,7 +101,7 @@ exports.login = (req, res) => {
                 return res.status(401).json({ auth: false, message:`wrong password or email` });
             } else {
                 // generate token
-                const token = jwt.sign( { userId: user._id }, 'RANDOM_TOKEN_SECRET', { expiresIn: 900 }); // expires in 15 min
+                const token = jwt.sign( { userId: user._id }, config.SECRET, { expiresIn: 900 }); // expires in 15 min
                 res.status(200).json({ auth:true, token: token })
             }
         }
