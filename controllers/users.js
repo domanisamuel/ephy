@@ -110,3 +110,23 @@ exports.login = (req, res) => {
         res.status(404).json(error)
     })
 }
+
+// search users
+exports.searchUsers = (req, res, next) => {
+    const regex = new RegExp(req.query['term'], 'i');
+    const userFilter = User.find({ firstname:regex }, { 'firstname':regex }).sort({"updated_at":-1}).sort({"created_at":-1}).limit(20);
+    userFilter.exec(function(error, data) {
+        let results = [];
+        if(!error) {
+            if(data && data.length && data.length > 0){
+                data.forEach(user => {
+                    let obj = {
+                        id:user._id
+                    };
+                    results.push(obj)
+                })
+            }
+        }
+        res.status(200).json({ message:`success`, data:results})
+    })
+}

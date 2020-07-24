@@ -18,16 +18,6 @@ mongoose.connect(`${config.DATABASE}`, { useNewUrlParser: true, useUnifiedTopolo
     console.log(error)
 })
 
-
-// //Set the proper CORS headers
-// app.use(function (req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "http://localhost:3000");  //* will allow from all cross domain
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-//     next();
-// })
-
-
 // import routes
 const userRoutes = require('./routes/users')
 
