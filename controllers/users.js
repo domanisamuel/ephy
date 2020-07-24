@@ -112,21 +112,29 @@ exports.login = (req, res) => {
 }
 
 // search users
-exports.searchUsers = (req, res, next) => {
-    const regex = new RegExp(req.query['term'], 'i');
-    const userFilter = User.find({ firstname:regex }, { 'firstname':regex }).sort({"updated_at":-1}).sort({"created_at":-1}).limit(20);
-    userFilter.exec(function(error, data) {
-        let results = [];
-        if(!error) {
-            if(data && data.length && data.length > 0){
-                data.forEach(user => {
-                    let obj = {
-                        id:user._id
-                    };
-                    results.push(obj)
-                })
-            }
-        }
-        res.status(200).json({ message:`success`, data:results})
+exports.searchUsers = (req, res) => {
+    let keys =''
+
+    for (const key in req.query) {
+        keys = key, req.query[key]
+    }
+
+    let results = [];
+
+    User.find()
+    .then((users) => {
+        const newUsers = [...users].filter(function(user) {
+            return (
+                user.firstname.toLowerCase().includes(keys.toLowerCase()) ||
+                user.lastname.toLowerCase().includes(keys.toLowerCase()) ||
+                user.email.toLowerCase().includes(keys.toLowerCase()) ||
+                user.phone.toLowerCase().includes(keys.toLowerCase())
+            ) 
+        })
+        keys.length <1 ? results = [] : results = newUsers
+        res.status(200).json(results)
+    })
+    .catch((error) => {
+        res.status(400).json(error)
     })
 }
