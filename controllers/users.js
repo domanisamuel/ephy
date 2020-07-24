@@ -110,3 +110,31 @@ exports.login = (req, res) => {
         res.status(404).json(error)
     })
 }
+
+// search users
+exports.searchUsers = (req, res) => {
+    let keys =''
+
+    for (const key in req.query) {
+        keys = key, req.query[key]
+    }
+
+    let results = [];
+
+    User.find()
+    .then((users) => {
+        const newUsers = [...users].filter(function(user) {
+            return (
+                user.firstname.toLowerCase().includes(keys.toLowerCase()) ||
+                user.lastname.toLowerCase().includes(keys.toLowerCase()) ||
+                user.email.toLowerCase().includes(keys.toLowerCase()) ||
+                user.phone.toLowerCase().includes(keys.toLowerCase())
+            ) 
+        })
+        keys.length <1 ? results = [] : results = newUsers
+        res.status(200).json(results)
+    })
+    .catch((error) => {
+        res.status(400).json(error)
+    })
+}
