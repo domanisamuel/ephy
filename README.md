@@ -1,27 +1,5 @@
 # ephy
-Node.js api
-
-#### auth (signup)
-| Action| Endpoint | Functionality | 
-|----------|----------|---------------|
-| POST | `/api/users`  | Add a user|
-| GET | `/api/users`  | Get all users|
-| GET | `/api/users/:id`  | Get a single user|
-| PUT | `/api/users/:id`  | Edit a user|
-| DELETE | `/api/users/:id`  | Delete a user|
-
-schema:
-```json
-
-  {
-    "firstname": "ephy",
-    "lastname": "kiki",
-    "email": "ephy@xyz.com",
-    "phone":"07xxxxxxxx",
-    "password": "xxxxxx"
-  }
-
-```
+Node.js api starter pack
 
 ### Prerequisites
 - Node 8 or greater version
